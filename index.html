@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body ng-app="InqueryMaker">
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+<script type="text/javascript">
+            var app = angular.module("InqueryMaker", ["ngMaterial","ngAnimate"]);
+
+            app.controller("MainCtrl", [ "$scope", function($scope) {
+            }]);
+
+
+</script>
+
+<style type="text/css">
+        <!--
+            .side-padding16 {padding: 0 16px 0 16px;}
+            .err-message {font-size: 12px; color: red}
+        -->
+
+</style>
+
+<div ng-controller="MainCtrl" layout="row" layout-align="center" style="width:100%">
+    <md-card flex="50" class="md-whiteframe-5dp" style="height:100%">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Zabbix生成フォーム</h2>
+            </div>
+        </md-toolbar>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Basic">
+                <md-content class="main-content">
+                    <form name="registerForm" novalidate>
+                        <md-card-content>
+                            <section>
+                                <div layout="row" class="side-padding16">
+                                    <md-input-container flex="40">
+                                        <label>会社名</label>
+                                        <input ng-model="companyName" name="companyName" required>
+                                        <div class="err-message"
+                                             ng-if="registerForm.companyName.$error.required && registerForm.companyName.$touched">
+                                            会社名を入力してください。
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="20">
+                                        <label>所属</label>
+                                        <md-select ng-model="companyAffiliation" name="companyAffiliation">
+                                            <md-option ng-repeat="affiliation in affiliations" value="{{affiliation}}">
+                                                {{affiliation}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+
+                                <div class="side-padding16">
+                                    <md-input-container flex="80">
+                                        <label>住所</label>
+                                        <textarea ng-model="companyAddress" name="companyAddress" required></textarea>
+                                        <div class="err-message"
+                                             ng-if="registerForm.companyAddress.$error.required && registerForm.companyAddress.$touched">
+                                            住所を入力してください。
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div class="side-padding16">
+                                    <md-input-container flex="40">
+                                        <label>電話番号</label>
+                                        <input ng-model="companyTelNumber" name="companyTelNumber">
+                                    </md-input-container>
+                                </div>
+                            </section>
+
+                            <!-- ユーザ情報の入力パート -->
+                            <section>
+                                <md-subheader class="md-primary">ユーザ情報</md-subheader>
+                                <div class="side-padding16" layout="row">
+                                    <md-input-container flex="30">
+                                        <label>氏名</label>
+                                        <input ng-model="userName" name="userName" required>
+                                        <span class="err-message"
+                                              ng-if="registerForm.userName.$error.required && registerForm.userName.$touched">氏名を入力してください</span>
+                                    </md-input-container>
+                                    <md-input-container flex="35">
+                                        <label>メールアドレス</label>
+                                        <input ng-model="userEmail" name="userEmail" type="email" required>
+                                        <div class="err-message"
+                                             ng-if="registerForm.userEmail.$error.required && registerForm.userEmail.$touched">
+                                            メールアドレスを入力してください。
+                                        </div>
+                                        <div class="err-message"
+                                             ng-if="registerForm.userEmail.$error.email && registerForm.userEmail.$touched">
+                                            メールアドレスの形式が正しくありません。
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div class="side-padding16">
+                                    <md-input-container flex="35" layout="row">
+                                        <div style="margin-top: 18px;margin-right: 16px;">性別</div>
+                                        <!-- ラジオボタンは、<md-radio-group>を使います。-->
+                                        <md-radio-group ng-model="userSex">
+                                            <!-- ラジオボタンの選択項目は、<md-radio-button>で指定します。-->
+                                            <md-radio-button value="MALE" class="md-primary">
+                                                男性
+                                            </md-radio-button>
+                                            <md-radio-button value="FEMALE">
+                                                女性
+                                            </md-radio-button>
+                                        </md-radio-group>
+                                    </md-input-container>
+                                </div>
+                                <div class="side-padding16" layout="row">
+                                    <md-input-container flex="20">
+                                        <label>生年月日</label>
+                                        <input ng-model="userBirthDay" name="userBirthDay" type="date" required>
+                                        <div ng-if="registerForm.userBirthDay.$error.required && registerForm.userBirthDay.$touched"
+                                             class="err-message">生年月日を入力して下さい。
+                                        </div>
+                                        <div ng-if="registerForm.userBirthDay.$error.date && registerForm.userBirthDay.$touched"
+                                             class="err-message">生年月日の形式が正しくありません。
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="10">
+                                        <label>年齢</label>
+                                        <input ng-model="userAge" name="userAge" type="number" min="0" required>
+                                        <div ng-if="registerForm.userAge.$error.min && registerForm.userAge.$touched"
+                                             class="err-message">年齢は0以上を入力して下さい。
+                                        </div>
+                                        <div ng-if="registerForm.userAge.$error.required && registerForm.userAge.$touched"
+                                             class="err-message">年齢を数値で入力して下さい。
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div class="side-padding16">
+                                    <md-input-container class="md-block" class="side-padding16">
+                                        <label>備考</label>
+                                        <textarea ng-model="note" name="note" md-maxlength="150"></textarea>
+                                        <div ng-if="registerForm.note.$error.md-maxlength && registerForm.note.$touched"
+                                             class="err-message">備考の入力文字数は150文字までです。
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </section>
+                        </md-card-content>
+
+                    </form>
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Option">
+                <md-content class="main">
+                </md-content>
+
+            <md-tab label="View & Create">
+                <md-content class="main">
+                    <form name="registerForm" novalidate>
+                        <md-card-content>
+                            <md-card-actions layout="row" layout-align="center">
+                                <md-button class="md-primary md-raised">生成</md-button>
+                            </md-card-actions>
+                        </md-card-content>
+                    </form>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+
+    </md-card>
+
+</div>
+
+</body>
+</html>
